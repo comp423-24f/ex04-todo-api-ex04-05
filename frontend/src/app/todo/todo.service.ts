@@ -53,6 +53,15 @@ export class TodoService {
     //
     // Feel free to use the completed `getItems()` method as
     // a guide.
+    console.log(this.todoList());
+    this.http.post<ToDoListItem>('/api/todo', newItem).subscribe({
+      next: (item) => {
+        const updatedList = [...this.todoList(), item];
+        this.todoList.set(updatedList);
+      },
+      error: (err) => console.log(err)
+    });
+    console.log(this.todoList());
   }
 
   /**
@@ -72,6 +81,13 @@ export class TodoService {
     //
     // Feel free to use the completed `getItems()` method as
     // a guide.
+    console.log(item.completed);
+    item.completed = !item.completed;
+    this.http.put<ToDoListItem[]>('/api/todo/${item.id}', item).subscribe({
+      next: (uItems) => this.todoList.set(uItems),
+      error: (err) => console.log(err)
+    });
+    console.log(item.completed);
   }
 
   /**
@@ -91,5 +107,11 @@ export class TodoService {
     //
     // Feel free to use the completed `getItems()` method as
     // a guide.
+    console.log(this.todoList);
+    this.http.delete<ToDoListItem[]>('/api/todo' + item.id).subscribe({
+      next: (items) => this.todoList.set(items),
+      error: (err) => console.log(err)
+    });
+    console.log(this.todoList);
   }
 }
