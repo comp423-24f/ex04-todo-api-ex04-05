@@ -39,6 +39,13 @@ def get_todos(
 #
 # Your solution below:
 ...
+@api.post("/create", response_model=TodoItem, tags=["Todo"])
+def post_todos(
+    item: TodoItem,
+    todo_service: TodoService = Depends(),
+    subject: User = Depends(registered_user),
+) -> TodoItem:
+    return todo_service.create(subject, item)
 
 
 # TODO: Create a PUT API that enables users to toggle todo list items.
@@ -53,6 +60,13 @@ def get_todos(
 #
 # Your solution below:
 ...
+@api.put("/update", response_model = TodoItem, tags=["Todo"])
+def put_todos(
+    item: TodoItem,
+    todo_service: TodoService = Depends(),
+    subject: User = Depends(registered_user),
+) -> TodoItem:
+    return todo_service.toggle_checkmark(subject, item)
 
 # TODO: Create a DELETE API that enables users to delete a todo list item.
 # The API route should include an ID, and there is no expected request body.
@@ -65,3 +79,11 @@ def get_todos(
 #
 # Your solution below:
 ...
+@api.delete("/delete/{id}", tags=["Todo"])
+def delete_todo(
+    id: int,
+    todo_service: TodoService = Depends(),
+    subject: User = Depends(registered_user),
+):
+    todo_service.delete(subject, id)
+    return None
