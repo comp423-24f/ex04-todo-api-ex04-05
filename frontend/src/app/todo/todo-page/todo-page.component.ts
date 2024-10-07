@@ -50,6 +50,7 @@ export class TodoPageComponent {
     // Use the service to create a new to-do list item, if the title
     // is not null and if it is not empty.
     if (newItemTitle && newItemTitle.length > 0) {
+      // console.log('made it to add new item in component.');
       this.todoService.addItem(newItemTitle);
       console.log(this.todoService.todoList());
     }
