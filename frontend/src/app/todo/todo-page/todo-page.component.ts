@@ -41,6 +41,7 @@ export class TodoPageComponent {
    */
   constructor(protected todoService: TodoService) {
     // TODO: Make sure that the service's todo item list is up to date.
+    todoService.getItems();
   }
 
   /** Adds a new item to the to-do list based on the string typed in. */
