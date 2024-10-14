@@ -26,30 +26,42 @@ def get_todos(
     """API to get all todo items."""
     return todo_service.all(subject)
 
+
 @api.post("", response_model=TodoItem, tags=["Todo"])
 def new_todo(
-    item: TodoItem, 
-    todo_service: TodoService = Depends(), 
-    subject: User = Depends(registered_user)
+    item: TodoItem,
+    todo_service: TodoService = Depends(),
+    subject: User = Depends(registered_user),
 ) -> TodoItem:
     """API to create a new todo item."""
     return todo_service.create(subject, item)
 
+
 @api.put("", response_model=TodoItem, tags=["Todo"])
 def toggle_checkmark(
-    item: TodoItem, 
-    todo_service: TodoService = Depends(), 
-    subject: User = Depends(registered_user)
+    item: TodoItem,
+    todo_service: TodoService = Depends(),
+    subject: User = Depends(registered_user),
 ) -> TodoItem:
     """API to update a todo item's completion status."""
     return todo_service.toggle_checkmark(subject, item)
-    
+
+
+@api.put("", response_model=TodoItem, tags=["Todo"])
+def change_title(
+    item: TodoItem,
+    todo_service: TodoService = Depends(),
+    subject: User = Depends(registered_user),
+) -> TodoItem:
+    """API to update the title of a todo item."""
+    return todo_service.change_name(subject, item)
+
+
 @api.delete("/{id}", response_model=None, tags=["Todo"])
 def delete_todo(
     id: int,
-    todo_service: TodoService = Depends(), 
-    subject: User = Depends(registered_user)
+    todo_service: TodoService = Depends(),
+    subject: User = Depends(registered_user),
 ) -> None:
     """API to delete a todo item."""
     todo_service.delete(subject, id)
-    

@@ -56,6 +56,18 @@ class TodoService:
         self._session.commit()
         return entity.to_model()
 
+    def change_name(self, subject: User, item: TodoItem, new_name: str) -> TodoItem:
+        """Allows the user to change the name of a previously existing todo item."""
+        query = select(TodoEntity).where(TodoEntity.id == item.id)
+        entity = self._session.scalars(query).one_or_none()
+        if entity is None:
+            raise ResourceNotFoundException(f"No todo item found with id: {item.id}")
+        if entity.user_id != subject.id:
+            raise UserPermissionException(f"Cannot edit the todo items of others.")
+        entity.title = item.title
+        self._session.commit()
+        return entity.to_model()
+
     def delete(self, subject: User, id: int):
         """Deletes a to-do item."""
         query = select(TodoEntity).where(TodoEntity.id == id)
