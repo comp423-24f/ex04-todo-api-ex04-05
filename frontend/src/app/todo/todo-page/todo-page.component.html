@@ -12,13 +12,27 @@
                 <mat-divider />
                 @for(item of todoService.todoList(); track item.id) {
                     <mat-list-item role="listitem">
-                        <div class="list-item-row">
-                            <mat-checkbox [checked]="item.completed" (change)="checkmarkPressed(item)"/>
-                            {{ item.title }}
-                            <button mat-icon-button class="delete-button" (click)="deleteItem(item)">
-                                <mat-icon class=tertiary-icon>delete</mat-icon>
-                            </button>
-                        </div>
+                        <!-- If not editing -->
+                        @if (editingItem?.id != item.id) {
+                            <div class="list-item-row">
+                                <mat-checkbox [checked]="item.completed" (change)="checkmarkPressed(item)"/>
+                                {{ item.title }}
+                                <button mat-icon-button class="delete-button" (click)="deleteItem(item)">
+                                    <mat-icon class=tertiary-icon>delete</mat-icon>
+                                </button>
+                                <button mat-icon-button (click) = "startEditing(item)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                            </div>
+                        }
+                        <!-- If editing -->
+                        @if (editingItem?.id == item.id) {
+                            <div class = "edit-item-row">
+                                <input matInput placholder = "Edit title" [formControl] = "editedTitle" />
+                                <button mat-stroked-button (click) = "saveEdit()">Save</button>
+                                <button mat-stroked-button (click) = "cancelEdit()">Cancel</button>
+                            </div>
+                        }
                     </mat-list-item>
                     <mat-divider />
                 } @empty {

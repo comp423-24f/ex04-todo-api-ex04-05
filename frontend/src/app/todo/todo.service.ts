@@ -74,4 +74,19 @@ export class TodoService {
         ])
       );
   }
+
+  /**
+   * Updates an item by check marking it.
+   * @param item: Item to toggle the checkmark status for.
+   */
+  updateTitle(item: ToDoListItem) {
+    this.http
+      .put<ToDoListItem>(`api/todo/update-title`, item)
+      .subscribe((updatedItem) =>
+        this.todoList.update((todos) =>
+          todos.map((todo) => (todo.id === updatedItem.id ? updatedItem : todo))
+        )
+      );
+  }
+  
 }

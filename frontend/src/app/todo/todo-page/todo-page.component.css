@@ -46,3 +46,13 @@ mat-card-actions {
 #empty-text {
     margin-top: 24px;
 }
+
+.edit-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+  
+.edit-item-row input {
+flex-grow: 1;
+}

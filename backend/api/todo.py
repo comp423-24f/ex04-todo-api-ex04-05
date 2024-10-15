@@ -46,14 +46,15 @@ def toggle_checkmark(
     """API to update a todo item's completion status."""
     return todo_service.toggle_checkmark(subject, item)
 
-
-@api.put("", response_model=TodoItem, tags=["Todo"])
+# Changed "" to "/update-title to differentiate between put calls"
+@api.put("/update-title", response_model=TodoItem, tags=["Todo"])
 def change_title(
     item: TodoItem,
     todo_service: TodoService = Depends(),
     subject: User = Depends(registered_user),
 ) -> TodoItem:
     """API to update the title of a todo item."""
+    # New name issue
     return todo_service.change_name(subject, item)
 
 

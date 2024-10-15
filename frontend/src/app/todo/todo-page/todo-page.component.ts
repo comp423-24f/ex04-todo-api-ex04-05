@@ -72,4 +72,28 @@ export class TodoPageComponent {
     // Call the appropriate service method to delete the item.
     this.todoService.deleteItem(item);
   }
+
+  editingItem: ToDoListItem | null = null;
+  editedTitle = new FormControl<string>('');
+
+  startEditing(item: ToDoListItem) {
+    this.editingItem = item;
+    this.editedTitle.setValue(item.title);
+  }
+
+  saveEdit() {
+    if (this.editingItem) {
+      const updatedItem = {
+        ...this.editingItem,
+        title: this.editedTitle.value || ''
+      };
+      this.todoService.updateTitle(updatedItem);
+      this.cancelEdit();
+    }
+  }
+
+  cancelEdit() {
+    this.editingItem = null;
+    this.editedTitle.reset();
+  }
 }

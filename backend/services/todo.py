@@ -56,7 +56,7 @@ class TodoService:
         self._session.commit()
         return entity.to_model()
 
-    def change_name(self, subject: User, item: TodoItem, new_name: str) -> TodoItem:
+    def change_name(self, subject: User, item: TodoItem) -> TodoItem:
         """Allows the user to change the name of a previously existing todo item."""
         query = select(TodoEntity).where(TodoEntity.id == item.id)
         entity = self._session.scalars(query).one_or_none()
